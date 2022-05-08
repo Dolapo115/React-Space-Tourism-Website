@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./CSS/app.css";
+import Home from "./Home";
+import Destination from "./Destination";
+import Crew from "./Crew";
+import Technology from "./Technology";
+import Topbar from "./TopBar";
+import MobileNav from "./MobileNav";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
+  const [media, setMedia] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 700px)");
+    query.matches ? setMedia(true) : setMedia(false);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="app-main">
+        {media ? <MobileNav /> : <Topbar />}
+
+        <Routes>
+          <Route path="/" index element={<Home />} />
+
+          <Route path="/destination" element={<Destination />} />
+
+          <Route path="/crew" element={<Crew />} />
+
+          <Route path="/technology" element={<Technology />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
